@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class boardController {
+public class BoardController {
 
     @GetMapping("/temp")
     public String tempMethod(){
