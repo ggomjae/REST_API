@@ -7,23 +7,22 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-// 순수 쳐야한다는 불편함이 있음.
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest // @Controller에 사용가능
-public class UserControllerTest {
+public class BoardControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @Test
-    public void usersTestMethod() throws Exception{
-        String str = "retrieveAllUsers";
+    public void boardTestMethod() throws Exception{
+        String str = "retrievePosts";
 
-        mvc.perform(get("/users"))
+        mvc.perform(get("/posts"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(str));
     }
