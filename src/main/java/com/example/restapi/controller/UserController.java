@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -23,7 +24,7 @@ public class UserController {
 
     // 유저를 저장하는 메소드
     @PostMapping("/users")
-    public ResponseEntity<ResponseCreateDto> createUser(@RequestBody RequestCreateDto requestCreateDto){
+    public ResponseEntity<ResponseCreateDto> createUser(@Valid @RequestBody RequestCreateDto requestCreateDto){
 
         ResponseCreateDto responseCreateDto = userService.save(requestCreateDto);
         /*

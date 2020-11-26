@@ -5,11 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Size;
+
 @Getter
 @NoArgsConstructor
 public class RequestCreateDto {
 
      private String password;
+
+     @Size(min = 3, message = "3글자 이상 입력하세요.")
      private String email;
      private String nickname;
 
