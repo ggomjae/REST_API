@@ -1,4 +1,4 @@
-package com.example.restapi.Entity.Post;
+package com.example.restapi.entity.Post;
 
 import com.example.restapi.utils.BaseTimeEntity;
 import lombok.*;

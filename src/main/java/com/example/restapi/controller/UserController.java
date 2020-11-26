@@ -4,7 +4,11 @@ import com.example.restapi.dto.request.RequestCreateDto;
 import com.example.restapi.dto.response.ResponseCreateDto;
 import com.example.restapi.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,9 +22,19 @@ public class UserController {
 
     // 유저를 저장하는 메소드
     @PostMapping("/users")
-    public ResponseCreateDto createUser(@RequestBody RequestCreateDto requestCreateDto){
+    public ResponseEntity<ResponseCreateDto> createUser(@RequestBody RequestCreateDto requestCreateDto){
 
-        return userService.save(requestCreateDto);
+        ResponseCreateDto responseCreateDto = userService.save(requestCreateDto);
+
+        /*
+            현재 URI를 얻기 위해 ServletUriComponentsBuilder를 쓴다.
+         */
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(responseCreateDto.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(responseCreateDto);
     }
 
     // 모든 유저 정보를 갖고 오는 메소드

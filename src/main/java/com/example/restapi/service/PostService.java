@@ -1,9 +1,5 @@
 package com.example.restapi.service;
 
-import com.example.restapi.Entity.Post.PostRepository;
-
-import javax.transaction.Transactional;
-
 public class PostService {
 
 //    private final PostRepository postRepository;

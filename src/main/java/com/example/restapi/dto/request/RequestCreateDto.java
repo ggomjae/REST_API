@@ -1,6 +1,6 @@
 package com.example.restapi.dto.request;
 
-import com.example.restapi.Entity.User.User;
+import com.example.restapi.entity.User.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

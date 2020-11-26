@@ -1,4 +1,4 @@
-package com.example.restapi.Entity.User;
+package com.example.restapi.entity.User;
 
 import com.example.restapi.utils.BaseTimeEntity;
 import lombok.Builder;
