@@ -1,9 +1,16 @@
 package com.example.restapi.controller;
 
+import com.example.restapi.dto.request.RequestCreateDto;
+import com.example.restapi.dto.response.ResponseCreateDto;
+import com.example.restapi.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 public class UserController {
+
+    private final UserService userService;
 
     ////////////////////////////////////////
     //               User                 //
@@ -11,8 +18,9 @@ public class UserController {
 
     // 유저를 저장하는 메소드
     @PostMapping("/users")
-    public String createUser(){
-        return "createUser";
+    public ResponseCreateDto createUser(@RequestBody RequestCreateDto requestCreateDto){
+
+        return userService.save(requestCreateDto);
     }
 
     // 모든 유저 정보를 갖고 오는 메소드
