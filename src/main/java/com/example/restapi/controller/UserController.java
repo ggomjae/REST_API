@@ -2,6 +2,7 @@ package com.example.restapi.controller;
 
 import com.example.restapi.dto.request.RequestCreateDto;
 import com.example.restapi.dto.response.ResponseCreateDto;
+import com.example.restapi.dto.response.ResponseRetrieveDto;
 import com.example.restapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +26,9 @@ public class UserController {
     public ResponseEntity<ResponseCreateDto> createUser(@RequestBody RequestCreateDto requestCreateDto){
 
         ResponseCreateDto responseCreateDto = userService.save(requestCreateDto);
-
         /*
             현재 URI를 얻기 위해 ServletUriComponentsBuilder를 쓴다.
+            201 Created 응답일 때 어느 페이지로 이동할지를 알려주는 헤더.
          */
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -45,8 +46,9 @@ public class UserController {
 
     // 유저 정보를 갖고 오는 메소드
     @GetMapping("/users/{id}")
-    public String retrieveUser(@PathVariable int id){
-        return "retrieveUser";
+    public ResponseRetrieveDto retrieveUser(@PathVariable Long id){
+
+        return userService.retrieve(id);
     }
 
     // 유저의 정보를 업데이트 하는 메소드
