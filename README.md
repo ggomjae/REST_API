@@ -17,6 +17,28 @@ TDD - JUnit4<br>
     <img height="300" src = "https://user-images.githubusercontent.com/43604493/100344279-ec37ca80-3023-11eb-9e3e-486bb961a874.JPG">
 </div>
 
+<br>
+
+One ) ```DataFilter```는 ```@jsonignore```,```SimpleBeanPropertyFilter```를 쓰지 않고 ```DTO```로 반환
+
+```bash
+EX] 
+@jsonignore --- ( x )
+SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.fillterOutAllExcept --- ( x )
+
+@PostMapping("/users") --- ( O )
+public ResponseEntity<ResponseCreateDto> createUser(@Valid @RequestBody RequestCreateDto requestCreateDto)
+    ...
+    return ResponseEntity.created(location).body(responseCreateDto);
+```
+
+<br>
+
+Two ) ```Entity```가 아닌 ```requestDTO```에 ```@Valid```로 적용
+```bash
+public ResponseEntity<ResponseCreateDto> createUser(@Valid @RequestBody RequestCreateDto requestCreateDto)
+```
+
 ### ERD
 
 ### SQL

@@ -3,6 +3,7 @@ package com.example.restapi.controller;
 import com.example.restapi.dto.request.RequestCreateDto;
 import com.example.restapi.dto.response.ResponseCreateDto;
 import com.example.restapi.dto.response.ResponseRetrieveDto;
+import com.example.restapi.entity.User.User;
 import com.example.restapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,7 @@ public class UserController {
 
     // 유저 정보를 갖고 오는 메소드
     @GetMapping("/users/{id}")
-    public ResponseRetrieveDto retrieveUser(@PathVariable Long id){
+    public ResponseRetrieveDto retrieveUserV1(@PathVariable Long id){
 
         return userService.retrieve(id);
     }
