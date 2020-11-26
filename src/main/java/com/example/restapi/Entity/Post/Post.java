@@ -1,10 +1,7 @@
 package com.example.restapi.Entity.Post;
 
 import com.example.restapi.utils.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -26,4 +23,12 @@ public class Post extends BaseTimeEntity {
     private String description;
 
     private boolean postStatus;
+
+    @Builder
+    public Post(String title, String content, String description, boolean postStatus){
+        this.title = title;
+        this.content = content;
+        this.description = description;
+        this.postStatus = postStatus;
+    }
 }

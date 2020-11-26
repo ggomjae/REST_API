@@ -1,6 +1,7 @@
 package com.example.restapi.Entity.User;
 
 import com.example.restapi.utils.BaseTimeEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,11 @@ public class User extends BaseTimeEntity {
     private String email;
 
     private String nickname;
+
+    @Builder
+    public User(String password, String email, String nickname){
+        this.password = password;
+        this.email = email;
+        this.nickname = nickname;
+    }
 }
