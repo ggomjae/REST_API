@@ -14,9 +14,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/v1/api")
 public class UserController {
 
     private final UserService userService;
@@ -44,8 +46,18 @@ public class UserController {
 
     // 모든 유저 정보를 갖고 오는 메소드
     @GetMapping("/users")
-    public String retrieveAllUsers(){
-        return "retrieveAllUsers";
+    public List<ResponseRetrieveUserDto> retrieveAllUsers(){
+
+        List<ResponseRetrieveUserDto> alluser = userService.retrieveAllUser();
+
+        for(ResponseRetrieveUserDto responseRetrieveUserDto : alluser){
+            WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
+                    .linkTo(WebMvcLinkBuilder
+                            .methodOn(this.getClass()).retrieveUser(responseRetrieveUserDto.getId()));
+            responseRetrieveUserDto.add(linkTo.withRel("retrieve-user"));
+        }
+
+        return alluser;
     }
 
     // 유저 정보를 갖고 오는 메소드
@@ -66,16 +78,7 @@ public class UserController {
         ResponseRetrieveUserDto responseRetrieveDto = userService.retrieve(id);
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveUser(id));
-        /*
-            #1
-            "self": {
-                "href": "http://localhost:8082"
-            }
-            #2
-            "retrieve-user": {
-                "href": "http://localhost:8082"
-            }
-         */
+
         // responseRetrieveDto.add(Link.of(String.valueOf(linkTo))); // #1
         responseRetrieveDto.add(linkTo.withRel("retrieve-user")); // #2
 
@@ -120,5 +123,15 @@ public class UserController {
     @DeleteMapping("/users/{id}/posts/{post_id}")
     public String deletePost(@PathVariable int id, @PathVariable int post_id){
         return "deletePost";
+    }
+
+    ////////////////////////////////////////
+    //               Reply                //
+    ////////////////////////////////////////
+
+    // 유저의 댓글을 모두 갖고 오는 메소드
+    @GetMapping("/users/{id}/replys")
+    public String retrieveReplysOfUser(@PathVariable Long id){
+        return "retrieveReplysOfUser";
     }
 }

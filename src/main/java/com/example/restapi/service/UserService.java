@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -31,6 +33,18 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(()->
                 new UserNotExceptionResponse("Not Found User"));
 
-        return new ResponseRetrieveUserDto(user.getEmail(), user.getNickname());
+        return new ResponseRetrieveUserDto(user.getId(),user.getEmail(), user.getNickname());
+    }
+
+    /*
+        0개를 보낼 수 도있기 때문에 예외처리가 따로 없다.
+     */
+    @Transactional
+    public List<ResponseRetrieveUserDto> retrieveAllUser(){
+
+        return userRepository.findAll()
+                .stream()
+                .map( user -> new ResponseRetrieveUserDto(user.getId(), user.getEmail(),user.getNickname()))
+                .collect(Collectors.toList());
     }
 }

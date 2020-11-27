@@ -12,16 +12,18 @@ public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long pno;
 
     @Column(length = 500, nullable = false)
     private String title;
 
-    @Column(columnDefinition = "Text", nullable = false)
+    @Column(columnDefinition = "Text", length = 2000, nullable = false)
     private String content;
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private boolean postStatus;
 
     @Builder
