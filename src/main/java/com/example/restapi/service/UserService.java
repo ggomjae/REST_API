@@ -33,33 +33,6 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(()->
                 new UserNotExceptionResponse("Not Found User"));
 
-        /*
-            WebMvcLinkBuilder selfLinkBuilder = linkTo(EventController.class).slash(newEvent.getId());
-            URI createdUri = selfLinkBuilder.toUri();
-            EventResource eventResource = new EventResource(event);
-            eventResource.add(linkTo(EventController.class).withRel("query-events"));
-            eventResource.add(selfLinkBuilder.withRel("update-event"));
-            eventResource.add(new Link("/docs/index.html#resources-events-create").withRel("profile"));
-            return ResponseEntity.created(createdUri).body(eventResource);
-         */
-
-        // HateOAS
-        ResponseRetrieveDto responseRetrieveDto = new ResponseRetrieveDto(user.getEmail(),user.getNickname());
-        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieve(id));
-        /*
-            #1
-            "self": {
-                "href": "http://localhost:8082"
-            }
-            #2
-            "retrieve-user": {
-                "href": "http://localhost:8082"
-            }
-         */
-        responseRetrieveDto.add(Link.of(String.valueOf(linkTo))); // #1
-        responseRetrieveDto.add(linkTo.withRel("retrieve-user")); // #2
-
-        return responseRetrieveDto;
+        return new ResponseRetrieveDto(user.getEmail(), user.getNickname());
     }
 }
