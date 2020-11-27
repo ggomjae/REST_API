@@ -1,4 +1,4 @@
-package com.example.restapi.dto.request;
+package com.example.restapi.dto.request.user;
 
 import com.example.restapi.entity.User.User;
 import io.swagger.annotations.ApiModel;
@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Getter
 @NoArgsConstructor
 @ApiModel(description = "회원 가입을 위한 정보")
-public class RequestCreateDto {
+public class RequestCreateUserDto {
 
      private String password;
 
@@ -23,7 +23,7 @@ public class RequestCreateDto {
      private String nickname;
 
      @Builder
-     public RequestCreateDto(String password, String email, String nickname){
+     public RequestCreateUserDto(String password, String email, String nickname){
          this.password = password;
          this.email = email;
          this.nickname = nickname;

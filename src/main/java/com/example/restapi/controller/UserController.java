@@ -1,8 +1,8 @@
 package com.example.restapi.controller;
 
-import com.example.restapi.dto.request.RequestCreateDto;
-import com.example.restapi.dto.response.ResponseCreateDto;
-import com.example.restapi.dto.response.ResponseRetrieveDto;
+import com.example.restapi.dto.request.user.RequestCreateUserDto;
+import com.example.restapi.dto.response.user.ResponseCreateUserDto;
+import com.example.restapi.dto.response.user.ResponseRetrieveUserDto;
 
 import com.example.restapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +27,9 @@ public class UserController {
 
     // 유저를 저장하는 메소드
     @PostMapping("/users")
-    public ResponseEntity<ResponseCreateDto> createUser(@Valid @RequestBody RequestCreateDto requestCreateDto){
+    public ResponseEntity<ResponseCreateUserDto> createUser(@Valid @RequestBody RequestCreateUserDto requestCreateDto){
 
-        ResponseCreateDto responseCreateDto = userService.save(requestCreateDto);
+        ResponseCreateUserDto responseCreateDto = userService.save(requestCreateDto);
         /*
             현재 URI를 얻기 위해 ServletUriComponentsBuilder를 쓴다.
             201 Created 응답일 때 어느 페이지로 이동할지를 알려주는 헤더.
@@ -50,7 +50,7 @@ public class UserController {
 
     // 유저 정보를 갖고 오는 메소드
     @GetMapping("/users/{id}")
-    public ResponseRetrieveDto retrieveUser(@PathVariable Long id){
+    public ResponseRetrieveUserDto retrieveUser(@PathVariable Long id){
 
         /*
             WebMvcLinkBuilder selfLinkBuilder = linkTo(EventController.class).slash(newEvent.getId());
@@ -63,7 +63,7 @@ public class UserController {
          */
 
         // HateOAS
-        ResponseRetrieveDto responseRetrieveDto = userService.retrieve(id);
+        ResponseRetrieveUserDto responseRetrieveDto = userService.retrieve(id);
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveUser(id));
         /*
