@@ -1,4 +1,4 @@
-REST API Server ( ~ing ) 🐻
+REST API Server  ( ~ing ) 🐻
 ============ 
 Java 8 to 11 <br>
 Spring Security <br>
