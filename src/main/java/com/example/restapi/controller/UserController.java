@@ -86,7 +86,7 @@ public class UserController {
     }
 
     // 유저의 정보를 업데이트 하는 메소드
-    @PutMapping("/users/{id}/nickname")
+    @PatchMapping("/users/{id}/nickname")
     public String updateUserNickname(@PathVariable int id){
         return "updateUserNickname";
     }
@@ -114,7 +114,7 @@ public class UserController {
     }
 
     // 유저의 게시물을 변경하는 메소드
-    @PutMapping("/users/{id}/posts/{post_id}/title")
+    @PatchMapping("/users/{id}/posts/{post_id}/title")
     public String updatePostTitle(@PathVariable int id, @PathVariable int post_id){
         return "updatePostTitle";
     }

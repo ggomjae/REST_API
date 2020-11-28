@@ -8,7 +8,6 @@ TDD - JUnit4<br>
 -------
 * Author 민경재[ggomjae] <br>
 * 개인 개발 블로그 링크 <https://blog.naver.com/ggomjae> <br>
-* 2020-11-26 ~ ing <br>
 * 과거 공부한 express 설계 참고 <https://blog.naver.com/ggomjae/222049288099> <br>
 * 과거 공부한 java 8 to 10 참고 <https://github.com/ggomjae/java8to11> <br>
 -------
@@ -42,3 +41,8 @@ public ResponseEntity<ResponseCreateDto> createUser(@Valid @RequestBody RequestC
 ### ERD
 
 ### SQL
+
+# 끝맺음
+<br>
+
+> 완전한 코드는 Git 위의 코드 부분을 봐주세요. <br>
