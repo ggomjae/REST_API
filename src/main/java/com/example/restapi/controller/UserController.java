@@ -3,6 +3,7 @@ package com.example.restapi.controller;
 import com.example.restapi.dto.request.user.RequestCreateUserDto;
 import com.example.restapi.dto.request.user.RequestUpdateUserDto;
 import com.example.restapi.dto.response.user.ResponseCreateUserDto;
+import com.example.restapi.dto.response.user.ResponseDeleteUserDto;
 import com.example.restapi.dto.response.user.ResponseRetrieveUserDto;
 
 import com.example.restapi.dto.response.user.ResponseUpdateUserDto;
@@ -96,8 +97,17 @@ public class UserController {
 
     // 유저를 삭제하는 메소드
     @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable int id){
-        return "deleteUser";
+    public ResponseDeleteUserDto deleteUser(@PathVariable Long id){
+
+        ResponseDeleteUserDto responseDeleteUserDto = userService.deleteUser(id);
+
+        // HateOAS
+        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).deleteUser(id));
+
+        responseDeleteUserDto.add(linkTo.withRel("delete-user"));
+
+        return responseDeleteUserDto;
     }
 
     ////////////////////////////////////////

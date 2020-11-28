@@ -2,6 +2,7 @@ package com.example.restapi.service;
 
 import com.example.restapi.dto.exception.UserNotExceptionResponse;
 import com.example.restapi.dto.request.user.RequestUpdateUserDto;
+import com.example.restapi.dto.response.user.ResponseDeleteUserDto;
 import com.example.restapi.dto.response.user.ResponseRetrieveUserDto;
 import com.example.restapi.dto.response.user.ResponseUpdateUserDto;
 import com.example.restapi.entity.User.User;
@@ -61,5 +62,16 @@ public class UserService {
         user.updateNickName(requestUpdateUserDto.getNickname());
 
         return new ResponseUpdateUserDto(id,user.getNickname());
+    }
+
+    @Transactional
+    public ResponseDeleteUserDto deleteUser(Long id){
+
+        User user = userRepository.findById(id).orElseThrow(()->
+                new UserNotExceptionResponse("Not Found User"));
+        userRepository.delete(user);
+
+        // status : true를 넣어줌으로 삭제됨을 클라이언트에게 보냄
+        return new ResponseDeleteUserDto(id,true);
     }
 }
