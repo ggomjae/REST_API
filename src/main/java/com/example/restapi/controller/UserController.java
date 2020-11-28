@@ -1,9 +1,11 @@
 package com.example.restapi.controller;
 
 import com.example.restapi.dto.request.user.RequestCreateUserDto;
+import com.example.restapi.dto.request.user.RequestUpdateUserDto;
 import com.example.restapi.dto.response.user.ResponseCreateUserDto;
 import com.example.restapi.dto.response.user.ResponseRetrieveUserDto;
 
+import com.example.restapi.dto.response.user.ResponseUpdateUserDto;
 import com.example.restapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -50,6 +52,8 @@ public class UserController {
 
         List<ResponseRetrieveUserDto> alluser = userService.retrieveAllUser();
 
+
+        // List안에 있는 모든 DTO에 Link 걸어주는 반복문
         for(ResponseRetrieveUserDto responseRetrieveUserDto : alluser){
             WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                     .linkTo(WebMvcLinkBuilder
@@ -64,16 +68,6 @@ public class UserController {
     @GetMapping("/users/{id}")
     public ResponseRetrieveUserDto retrieveUser(@PathVariable Long id){
 
-        /*
-            WebMvcLinkBuilder selfLinkBuilder = linkTo(EventController.class).slash(newEvent.getId());
-            URI createdUri = selfLinkBuilder.toUri();
-            EventResource eventResource = new EventResource(event);
-            eventResource.add(linkTo(EventController.class).withRel("query-events"));
-            eventResource.add(selfLinkBuilder.withRel("update-event"));
-            eventResource.add(new Link("/docs/index.html#resources-events-create").withRel("profile"));
-            return ResponseEntity.created(createdUri).body(eventResource);
-         */
-
         // HateOAS
         ResponseRetrieveUserDto responseRetrieveDto = userService.retrieve(id);
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
@@ -87,8 +81,17 @@ public class UserController {
 
     // 유저의 정보를 업데이트 하는 메소드
     @PatchMapping("/users/{id}/nickname")
-    public String updateUserNickname(@PathVariable int id){
-        return "updateUserNickname";
+    public ResponseUpdateUserDto updateUserNickname(@PathVariable Long id, @Valid @RequestBody RequestUpdateUserDto requestUpdateUserDto){
+
+        ResponseUpdateUserDto responseUpdateUserDto = userService.updateUserNickname(id,requestUpdateUserDto);
+
+        // HateOAS
+        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).updateUserNickname(id,requestUpdateUserDto));
+
+        responseUpdateUserDto.add(linkTo.withRel("update-user-nickname"));
+
+        return responseUpdateUserDto;
     }
 
     // 유저를 삭제하는 메소드

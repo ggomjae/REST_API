@@ -31,4 +31,9 @@ public class User extends BaseTimeEntity {
         this.email = email;
         this.nickname = nickname;
     }
+
+    // user nickname을 변경하는 행동
+    public void updateNickName(String nickname){
+        this.nickname = nickname;
+    }
 }

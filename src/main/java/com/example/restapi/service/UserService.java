@@ -1,7 +1,9 @@
 package com.example.restapi.service;
 
 import com.example.restapi.dto.exception.UserNotExceptionResponse;
+import com.example.restapi.dto.request.user.RequestUpdateUserDto;
 import com.example.restapi.dto.response.user.ResponseRetrieveUserDto;
+import com.example.restapi.dto.response.user.ResponseUpdateUserDto;
 import com.example.restapi.entity.User.User;
 import com.example.restapi.entity.User.UserRepository;
 import com.example.restapi.dto.request.user.RequestCreateUserDto;
@@ -30,6 +32,7 @@ public class UserService {
     @Transactional
     public ResponseRetrieveUserDto retrieve(Long id){
 
+        // 만약 존재하지 않으면 Error
         User user = userRepository.findById(id).orElseThrow(()->
                 new UserNotExceptionResponse("Not Found User"));
 
@@ -46,5 +49,17 @@ public class UserService {
                 .stream()
                 .map( user -> new ResponseRetrieveUserDto(user.getId(), user.getEmail(),user.getNickname()))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ResponseUpdateUserDto updateUserNickname(Long id, RequestUpdateUserDto requestUpdateUserDto){
+
+        User user = userRepository.findById(id).orElseThrow(()->
+                new UserNotExceptionResponse("Not Found User"));
+
+        // 이미 예외처리를 통해 user를 걸러냈기 때문에 오류가 따로 없다.
+        user.updateNickName(requestUpdateUserDto.getNickname());
+
+        return new ResponseUpdateUserDto(id,user.getNickname());
     }
 }
