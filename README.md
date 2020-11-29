@@ -13,7 +13,7 @@ TDD - JUnit4<br>
 -------
 ### REST API
 <div>
-    <img height="300" src = "https://user-images.githubusercontent.com/43604493/100344279-ec37ca80-3023-11eb-9e3e-486bb961a874.JPG">
+    <img height="300" src = "https://user-images.githubusercontent.com/43604493/100547555-b0fafd00-32aa-11eb-9e05-6feb9ac9e67b.JPG">
 </div>
 
 <br>
