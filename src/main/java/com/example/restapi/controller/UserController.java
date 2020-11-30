@@ -4,6 +4,7 @@ import com.example.restapi.dto.request.post.RequestCreatePostDto;
 import com.example.restapi.dto.request.user.RequestCreateUserDto;
 import com.example.restapi.dto.request.user.RequestUpdateUserDto;
 import com.example.restapi.dto.response.post.ResponseCreatePostDto;
+import com.example.restapi.dto.response.post.ResponseRetrievePostDto;
 import com.example.restapi.dto.response.user.ResponseCreateUserDto;
 import com.example.restapi.dto.response.user.ResponseDeleteUserDto;
 import com.example.restapi.dto.response.user.ResponseRetrieveUserDto;
@@ -57,18 +58,17 @@ public class UserController {
     @GetMapping("/users")
     public List<ResponseRetrieveUserDto> retrieveAllUsers(){
 
-        List<ResponseRetrieveUserDto> alluser = userService.retrieveAllUser();
-
+        List<ResponseRetrieveUserDto> users = userService.retrieveAllUser();
 
         // List안에 있는 모든 DTO에 Link 걸어주는 반복문
-        for(ResponseRetrieveUserDto responseRetrieveUserDto : alluser){
+        for(ResponseRetrieveUserDto responseRetrieveUserDto : users){
             WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                     .linkTo(WebMvcLinkBuilder
                             .methodOn(this.getClass()).retrieveUser(responseRetrieveUserDto.getId()));
-            responseRetrieveUserDto.add(linkTo.withRel("retrieve-user"));
+            responseRetrieveUserDto.add(linkTo.withRel("retrieve-all-user"));
         }
 
-        return alluser;
+        return users;
     }
 
     // 유저 정보를 갖고 오는 메소드
@@ -147,8 +147,17 @@ public class UserController {
 
     // 유저의 모든 게시물을 갖고오는 메소드
     @GetMapping("/users/{id}/posts")
-    public String retrievePostsOfUser(@PathVariable int id){
-        return "retrievePostsOfUser";
+    public List<ResponseRetrievePostDto> retrievePostsOfUser(@PathVariable Long id){
+
+        List<ResponseRetrievePostDto> posts = postService.retrievePosts(id);
+
+        for(ResponseRetrievePostDto responseRetrievePostDto : posts){
+            WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
+                    .linkTo(WebMvcLinkBuilder
+                            .methodOn(this.getClass()).retrieveUser(responseRetrievePostDto.getId()));
+            responseRetrievePostDto.add(linkTo.withRel("retrieve-all-post"));
+        }
+        return posts;
     }
 
     // 유저의 게시물을 변경하는 메소드

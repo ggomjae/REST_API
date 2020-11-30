@@ -15,4 +15,8 @@ public class PostController {
     public String retrieveAllPost(){
         return "retrieveAllPost";
     }
+
+    // 게시물을 갖고오는 메소드 [ 로그인안하고 클릭시 볼 때 ]
+    @GetMapping("/posts/{post_id}")
+    public String retrievePost() { return "retrievePost"; }
 }
