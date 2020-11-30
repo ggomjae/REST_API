@@ -20,7 +20,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -122,12 +124,23 @@ public class UserController {
     @PostMapping("/users/{id}/posts")
     public ResponseEntity<ResponseCreatePostDto> createPost(@RequestBody RequestCreatePostDto requestCreatePostDto, @PathVariable Long id){
 
-        ResponseCreatePostDto responseCreatePostDto = postService.retrievePost(id,requestCreatePostDto);
+        ResponseCreatePostDto responseCreatePostDto = postService.savePost(id,requestCreatePostDto);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}/posts/{post_id}")
-                .buildAndExpand(id,responseCreatePostDto.getPno())
+            Map<String,Long> parameterContainer = new HashMap<>();
+            parameterContainer.put("id",id);
+            parameterContainer.put("post_id",responseCreatePostDto.getPno());
+
+            // User Post와 다르게 fromCurrentcontextPath를 썼음. path 때문에
+            URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/users/{id}/posts/{post_id}")
+                .buildAndExpand(parameterContainer)
                 .toUri();
+
+            /*
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.setLocation(uriOfNewResource);
+                return new ResponseEntity<>(customer, httpHeaders, HttpStatus.CREATED);
+             */
 
         return ResponseEntity.created(location).body(responseCreatePostDto);
     }

@@ -20,15 +20,17 @@ public class PostService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ResponseCreatePostDto retrievePost(Long id, RequestCreatePostDto requestCreatePostDto){
+    public ResponseCreatePostDto savePost(Long id, RequestCreatePostDto requestCreatePostDto){
 
-        /*
-            Post를 등록하기 전에 해당하는 아이디가 있는지 확인한 후에 게시물 저장.
-         */
-        User user = userRepository.findById(id).orElseThrow(()->
-                new UserNotExceptionResponse("Not Found User"));
-
+        User user = verify(id);
         Post post = postRepository.save(requestCreatePostDto.toPost(user.getId()));
         return new ResponseCreatePostDto(post.getPno(),post.getTitle());
+    }
+
+    // user가 존재하는지 확인하는 메소드
+    @Transactional
+    public User verify(Long id){
+        return userRepository.findById(id).orElseThrow(()->
+                new UserNotExceptionResponse("Not Found User"));
     }
 }
