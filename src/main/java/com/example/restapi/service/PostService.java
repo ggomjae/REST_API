@@ -5,6 +5,7 @@ import com.example.restapi.dto.exception.UserNotExceptionResponse;
 import com.example.restapi.dto.request.post.RequestCreatePostDto;
 import com.example.restapi.dto.request.post.RequestUpdatePostDto;
 import com.example.restapi.dto.response.post.ResponseCreatePostDto;
+import com.example.restapi.dto.response.post.ResponseDeletePostDto;
 import com.example.restapi.dto.response.post.ResponseRetrievePostDto;
 import com.example.restapi.dto.response.post.ResponseUpdatePostDto;
 import com.example.restapi.entity.Post.Post;
@@ -33,15 +34,6 @@ public class PostService {
         return new ResponseCreatePostDto(post.getPno(),post.getTitle());
     }
 
-    /*
-
-    // 유저의 게시물을 삭제하는 메소드
-    @DeleteMapping("/users/{id}/posts/{post_id}")
-    public String deletePost(@PathVariable int id, @PathVariable int post_id){
-        return "deletePost";
-    }
-     */
-
     @Transactional
     public List<ResponseRetrievePostDto> retrievePosts(Long id){
         User user = verify(id);
@@ -63,6 +55,15 @@ public class PostService {
         post.updateTitle(requestUpdatePostDto.getTitle());
 
         return new ResponseUpdatePostDto(post.getPno(),user.getId(),post.getTitle());
+    }
+
+    @Transactional
+    public ResponseDeletePostDto deletePost(Long id, Long post_id){
+        User user = verify(id);
+        Post post = postRepository.findById(post_id).orElseThrow(()->
+                    new PostNotExceptionResponse("Nout Found Post"));
+        postRepository.delete(post);
+        return new ResponseDeletePostDto(post.getPno(),user.getId(),true);
     }
 
     // user가 존재하는지 확인하는 메소드

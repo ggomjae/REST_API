@@ -5,6 +5,7 @@ import com.example.restapi.dto.request.post.RequestUpdatePostDto;
 import com.example.restapi.dto.request.user.RequestCreateUserDto;
 import com.example.restapi.dto.request.user.RequestUpdateUserDto;
 import com.example.restapi.dto.response.post.ResponseCreatePostDto;
+import com.example.restapi.dto.response.post.ResponseDeletePostDto;
 import com.example.restapi.dto.response.post.ResponseRetrievePostDto;
 import com.example.restapi.dto.response.post.ResponseUpdatePostDto;
 import com.example.restapi.dto.response.user.ResponseCreateUserDto;
@@ -178,8 +179,17 @@ public class UserController {
 
     // 유저의 게시물을 삭제하는 메소드
     @DeleteMapping("/users/{id}/posts/{post_id}")
-    public String deletePost(@PathVariable int id, @PathVariable int post_id){
-        return "deletePost";
+    public ResponseDeletePostDto deletePost(@PathVariable Long id, @PathVariable Long post_id){
+
+        ResponseDeletePostDto responseDeletePostDto = postService.deletePost(id,post_id);
+
+        // HateOAS
+        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).deletePost(id,post_id));
+
+        responseDeletePostDto.add(linkTo.withRel("delete-user"));
+
+        return responseDeletePostDto;
     }
 
     ////////////////////////////////////////
