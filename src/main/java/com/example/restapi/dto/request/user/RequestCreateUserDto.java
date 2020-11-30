@@ -20,6 +20,7 @@ public class RequestCreateUserDto {
      @ApiModelProperty(notes = "사용자 이메일을 입력하세요.")
      private String email;
 
+     @ApiModelProperty(notes = "사용자 닉네임을 입력하세요.")
      private String nickname;
 
      @Builder

@@ -116,7 +116,8 @@ public class UserController {
 
     // 유저의 게시물을 만드는 메소드
     @PostMapping("/users/{id}/posts")
-    public String createPost(@PathVariable int id){
+    public String createPost(@PathVariable Long id){
+
         return "createPost";
     }
 
