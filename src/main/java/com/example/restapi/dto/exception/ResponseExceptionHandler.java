@@ -42,6 +42,15 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
+    // Reply Exception
+    @ExceptionHandler(ReplyNotExceptionResponse.class)
+    public final ResponseEntity<Object> handleReplyNotException(Exception e, WebRequest webRequest){
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(new Date(), e.getMessage(), webRequest.getDescription(false));
+
+        return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
     // NOT_MATCH Exception
     @ExceptionHandler(NotMatchExceptionResponse.class)
     public final ResponseEntity<Object> handleNotMatchException(Exception e, WebRequest webRequest){

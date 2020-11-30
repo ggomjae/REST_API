@@ -191,7 +191,7 @@ public class UserAPI {
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).deletePost(user_id,post_id));
 
-        responseDeletePostDto.add(linkTo.withRel("delete-user"));
+        responseDeletePostDto.add(linkTo.withRel("delete-post"));
 
         return responseDeletePostDto;
     }
