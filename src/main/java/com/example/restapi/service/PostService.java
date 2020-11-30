@@ -1,5 +1,6 @@
 package com.example.restapi.service;
 
+import com.example.restapi.dto.exception.NotMatchExceptionResponse;
 import com.example.restapi.dto.exception.PostNotExceptionResponse;
 import com.example.restapi.dto.exception.UserNotExceptionResponse;
 import com.example.restapi.dto.request.post.RequestCreatePostDto;
@@ -57,6 +58,9 @@ public class PostService {
         Post post = postRepository.findById(post_id).orElseThrow(()->
             new PostNotExceptionResponse("Not Found Post"));
 
+        // 모두 존재하지만 user가 작성한것과 다를때 예외 처리
+        if(post.getId() != user.getId()) throw new NotMatchExceptionResponse("Not Match");
+
         post.updateTitle(requestUpdatePostDto.getTitle());
 
         return new ResponseUpdatePostDto(post.getPno(),user.getId(),post.getTitle());
@@ -67,6 +71,10 @@ public class PostService {
         User user = verify(id);
         Post post = postRepository.findById(post_id).orElseThrow(()->
                     new PostNotExceptionResponse("Nout Found Post"));
+
+        // 모두 존재하지만 user가 작성한것과 다를때 예외 처리
+        if(post.getId() != user.getId()) throw new NotMatchExceptionResponse("Not Match");
+
         postRepository.delete(post);
         return new ResponseDeletePostDto(post.getPno(),user.getId(),true);
     }
@@ -88,5 +96,13 @@ public class PostService {
                 .stream()
                 .map( post -> new ResponseRetrievePostDto(post.getId(),post.getPno()))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ResponseRetrievePostDto retrievePost(Long post_id){
+        Post post = postRepository.findById(post_id).orElseThrow(()->
+                new PostNotExceptionResponse("Not Found Post"));
+
+        return new ResponseRetrievePostDto(post.getPno(),post.getId());
     }
 }

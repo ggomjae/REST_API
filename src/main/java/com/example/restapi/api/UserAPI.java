@@ -1,4 +1,4 @@
-package com.example.restapi.controller;
+package com.example.restapi.api;
 
 import com.example.restapi.dto.request.post.RequestCreatePostDto;
 import com.example.restapi.dto.request.post.RequestUpdatePostDto;
@@ -31,7 +31,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api")
-public class UserController {
+public class UserAPI {
 
     private final UserService userService;
     private final PostService postService;
@@ -78,8 +78,9 @@ public class UserController {
     @GetMapping("/users/{id}")
     public ResponseRetrieveUserDto retrieveUser(@PathVariable Long id){
 
-        // HateOAS
         ResponseRetrieveUserDto responseRetrieveDto = userService.retrieveUser(id);
+
+        // HateOAS
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveUser(id));
 

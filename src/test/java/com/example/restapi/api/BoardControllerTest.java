@@ -1,4 +1,4 @@
-package com.example.restapi.controller;
+package com.example.restapi.api;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

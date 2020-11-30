@@ -42,6 +42,15 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
+    // NOT_MATCH Exception
+    @ExceptionHandler(NotMatchExceptionResponse.class)
+    public final ResponseEntity<Object> handleNotMatchException(Exception e, WebRequest webRequest){
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(new Date(), e.getMessage(), webRequest.getDescription(false));
+
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @Override // 이러한 오버라이드는 상속을 했을 경우, 만약 메소드 명이 틀리면 오류가 뜨니까 쓰는게 좋다.
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
