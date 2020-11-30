@@ -7,12 +7,12 @@ import org.springframework.hateoas.RepresentationModel;
 public class ResponseUpdatePostDto extends RepresentationModel<ResponseUpdatePostDto> {
 
     private final Long pno;
-    private final Long id;
+    private final Long uno;
     private final String title;
 
-    public ResponseUpdatePostDto(Long pno,Long id, String title){
+    public ResponseUpdatePostDto(Long pno,Long uno, String title){
         this.pno = pno;
-        this.id = id;
+        this.uno = uno;
         this.title =title;
     }
 }

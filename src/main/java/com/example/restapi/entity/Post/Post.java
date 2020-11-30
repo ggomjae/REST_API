@@ -15,7 +15,7 @@ public class Post extends BaseTimeEntity {
     private Long pno;
 
     @Column(nullable = false)
-    private Long id;
+    private Long uno;
 
     @Column(length = 500, nullable = false)
     private String title;
@@ -30,8 +30,8 @@ public class Post extends BaseTimeEntity {
     private boolean postStatus;
 
     @Builder
-    public Post(Long id, String title, String content, String description, boolean postStatus){
-        this.id = id;
+    public Post(Long uno, String title, String content, String description, boolean postStatus){
+        this.uno = uno;
         this.title = title;
         this.content = content;
         this.description = description;

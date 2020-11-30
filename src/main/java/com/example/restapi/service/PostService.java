@@ -29,72 +29,72 @@ public class PostService {
 
 
     ////////////////////////////////////////
-    //          UserController            //
+    //          UserAPI                   //
     ////////////////////////////////////////
 
     @Transactional
-    public ResponseCreatePostDto savePost(Long id, RequestCreatePostDto requestCreatePostDto){
+    public ResponseCreatePostDto savePost(Long user_id, RequestCreatePostDto requestCreatePostDto){
 
-        User user = verify(id);
-        Post post = postRepository.save(requestCreatePostDto.toPost(user.getId()));
+        User user = verify(user_id);
+        Post post = postRepository.save(requestCreatePostDto.toPost(user.getUno()));
         return new ResponseCreatePostDto(post.getPno(),post.getTitle());
     }
 
     @Transactional
-    public List<ResponseRetrievePostDto> retrievePosts(Long id){
-        User user = verify(id);
-        return postRepository.findAllConditionDesc(user.getId())
+    public List<ResponseRetrievePostDto> retrievePosts(Long user_id){
+        User user = verify(user_id);
+        return postRepository.findAllConditionDesc(user.getUno())
                 .stream()
-                .map( post -> new ResponseRetrievePostDto(post.getId(),post.getPno()))
+                .map( post -> new ResponseRetrievePostDto(post.getUno(),post.getPno(),post.getContent()))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public ResponseUpdatePostDto updatePostTitle(RequestUpdatePostDto requestUpdatePostDto, Long id, Long post_id){
+    public ResponseUpdatePostDto updatePostTitle(RequestUpdatePostDto requestUpdatePostDto, Long user_id, Long post_id){
         // User가 있는지 확인
-        User user = verify(id);
+        User user = verify(user_id);
 
         // Post가 있는지 확인
         Post post = postRepository.findById(post_id).orElseThrow(()->
             new PostNotExceptionResponse("Not Found Post"));
 
         // 모두 존재하지만 user가 작성한것과 다를때 예외 처리
-        if(post.getId() != user.getId()) throw new NotMatchExceptionResponse("Not Match");
+        if(post.getUno() != user.getUno()) throw new NotMatchExceptionResponse("Not Match");
 
         post.updateTitle(requestUpdatePostDto.getTitle());
 
-        return new ResponseUpdatePostDto(post.getPno(),user.getId(),post.getTitle());
+        return new ResponseUpdatePostDto(post.getPno(),user.getUno(),post.getTitle());
     }
 
     @Transactional
-    public ResponseDeletePostDto deletePost(Long id, Long post_id){
-        User user = verify(id);
+    public ResponseDeletePostDto deletePost(Long user_id, Long post_id){
+        User user = verify(user_id);
         Post post = postRepository.findById(post_id).orElseThrow(()->
                     new PostNotExceptionResponse("Nout Found Post"));
 
         // 모두 존재하지만 user가 작성한것과 다를때 예외 처리
-        if(post.getId() != user.getId()) throw new NotMatchExceptionResponse("Not Match");
+        if(post.getUno() != user.getUno()) throw new NotMatchExceptionResponse("Not Match");
 
         postRepository.delete(post);
-        return new ResponseDeletePostDto(post.getPno(),user.getId(),true);
+        return new ResponseDeletePostDto(post.getPno(),true);
     }
 
     // user가 존재하는지 확인하는 메소드
     @Transactional
-    public User verify(Long id){
-        return userRepository.findById(id).orElseThrow(()->
+    public User verify(Long user_id){
+        return userRepository.findById(user_id).orElseThrow(()->
                 new UserNotExceptionResponse("Not Found User"));
     }
 
     ////////////////////////////////////////
-    //          PostController            //
+    //              PostAPI               //
     ////////////////////////////////////////
 
     @Transactional
     public List<ResponseRetrievePostDto> retrieveAllPost(){
         return postRepository.findAllDesc()
                 .stream()
-                .map( post -> new ResponseRetrievePostDto(post.getId(),post.getPno()))
+                .map( post -> new ResponseRetrievePostDto(post.getUno(),post.getPno(),post.getContent()))
                 .collect(Collectors.toList());
     }
 
@@ -103,6 +103,6 @@ public class PostService {
         Post post = postRepository.findById(post_id).orElseThrow(()->
                 new PostNotExceptionResponse("Not Found Post"));
 
-        return new ResponseRetrievePostDto(post.getPno(),post.getId());
+        return new ResponseRetrievePostDto(post.getPno(),post.getUno(),post.getContent());
     }
 }

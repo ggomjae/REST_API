@@ -30,10 +30,10 @@ public class RequestCreatePostDto {
         this.postStatus = postStatus;
     }
 
-    public Post toPost(Long id){
+    public Post toPost(Long user_id){
         return Post.builder()
                 .title(this.title)
-                .id(id)
+                .uno(user_id)
                 .content(this.content)
                 .description(this.description)
                 .postStatus(this.postStatus)

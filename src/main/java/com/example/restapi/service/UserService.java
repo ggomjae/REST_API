@@ -27,17 +27,17 @@ public class UserService {
     public ResponseCreateUserDto saveUser(RequestCreateUserDto requestCreateDto) {
 
         User user = userRepository.save(requestCreateDto.toEntiy());
-        return new ResponseCreateUserDto(user.getId(), user.getNickname());
+        return new ResponseCreateUserDto(user.getUno(), user.getNickname());
     }
 
     @Transactional
-    public ResponseRetrieveUserDto retrieveUser(Long id){
+    public ResponseRetrieveUserDto retrieveUser(Long user_id){
 
         // 만약 존재하지 않으면 Error
-        User user = userRepository.findById(id).orElseThrow(()->
+        User user = userRepository.findById(user_id).orElseThrow(()->
                 new UserNotExceptionResponse("Not Found User"));
 
-        return new ResponseRetrieveUserDto(user.getId(),user.getEmail(), user.getNickname());
+        return new ResponseRetrieveUserDto(user.getUno(),user.getEmail(), user.getNickname());
     }
 
     /*
@@ -48,30 +48,30 @@ public class UserService {
 
         return userRepository.findAll()
                 .stream()
-                .map( user -> new ResponseRetrieveUserDto(user.getId(), user.getEmail(),user.getNickname()))
+                .map( user -> new ResponseRetrieveUserDto(user.getUno(), user.getEmail(),user.getNickname()))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public ResponseUpdateUserDto updateUserNickname(Long id, RequestUpdateUserDto requestUpdateUserDto){
+    public ResponseUpdateUserDto updateUserNickname(Long user_id, RequestUpdateUserDto requestUpdateUserDto){
 
-        User user = userRepository.findById(id).orElseThrow(()->
+        User user = userRepository.findById(user_id).orElseThrow(()->
                 new UserNotExceptionResponse("Not Found User"));
 
         // 이미 예외처리를 통해 user를 걸러냈기 때문에 오류가 따로 없다.
         user.updateNickName(requestUpdateUserDto.getNickname());
 
-        return new ResponseUpdateUserDto(id,user.getNickname());
+        return new ResponseUpdateUserDto(user_id,user.getNickname());
     }
 
     @Transactional
-    public ResponseDeleteUserDto deleteUser(Long id){
+    public ResponseDeleteUserDto deleteUser(Long user_id){
 
-        User user = userRepository.findById(id).orElseThrow(()->
+        User user = userRepository.findById(user_id).orElseThrow(()->
                 new UserNotExceptionResponse("Not Found User"));
         userRepository.delete(user);
 
         // status : true를 넣어줌으로 삭제됨을 클라이언트에게 보냄
-        return new ResponseDeleteUserDto(id,true);
+        return new ResponseDeleteUserDto(user_id,true);
     }
 }

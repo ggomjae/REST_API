@@ -20,15 +20,15 @@ public class Reply extends BaseTimeEntity {
     private Long pno;
 
     @Column(nullable = false)
-    private String writer;
+    private Long uno;
 
     @Column(columnDefinition = "Text", length = 1000)
     private String content;
 
     @Builder
-    private Reply(Long pno, String writer, String content){
+    private Reply(Long pno, Long uno, String content){
         this.pno = pno;
-        this.writer = writer;
+        this.uno = uno;
         this.content = content;
     }
 }
