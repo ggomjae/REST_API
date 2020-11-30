@@ -1,15 +1,17 @@
 package com.example.restapi.controller;
 
 import com.example.restapi.dto.request.post.RequestCreatePostDto;
+import com.example.restapi.dto.request.post.RequestUpdatePostDto;
 import com.example.restapi.dto.request.user.RequestCreateUserDto;
 import com.example.restapi.dto.request.user.RequestUpdateUserDto;
 import com.example.restapi.dto.response.post.ResponseCreatePostDto;
 import com.example.restapi.dto.response.post.ResponseRetrievePostDto;
+import com.example.restapi.dto.response.post.ResponseUpdatePostDto;
 import com.example.restapi.dto.response.user.ResponseCreateUserDto;
 import com.example.restapi.dto.response.user.ResponseDeleteUserDto;
 import com.example.restapi.dto.response.user.ResponseRetrieveUserDto;
-
 import com.example.restapi.dto.response.user.ResponseUpdateUserDto;
+
 import com.example.restapi.service.PostService;
 import com.example.restapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -154,7 +156,7 @@ public class UserController {
         for(ResponseRetrievePostDto responseRetrievePostDto : posts){
             WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                     .linkTo(WebMvcLinkBuilder
-                            .methodOn(this.getClass()).retrieveUser(responseRetrievePostDto.getId()));
+                            .methodOn(this.getClass()).retrievePostsOfUser(responseRetrievePostDto.getId()));
             responseRetrievePostDto.add(linkTo.withRel("retrieve-all-post"));
         }
         return posts;
@@ -162,8 +164,16 @@ public class UserController {
 
     // 유저의 게시물을 변경하는 메소드
     @PatchMapping("/users/{id}/posts/{post_id}/title")
-    public String updatePostTitle(@PathVariable int id, @PathVariable int post_id){
-        return "updatePostTitle";
+    public ResponseUpdatePostDto updatePostTitle(@RequestBody RequestUpdatePostDto requestUpdatePostDto, @PathVariable long id, @PathVariable long post_id){
+
+        ResponseUpdatePostDto responseUpdatePostDto = postService.updatePostTitle(requestUpdatePostDto,id,post_id);
+
+        //HateOAS
+        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrievePostsOfUser(id));
+
+        responseUpdatePostDto.add(linkTo.withRel("update-post-title"));
+        return responseUpdatePostDto;
     }
 
     // 유저의 게시물을 삭제하는 메소드

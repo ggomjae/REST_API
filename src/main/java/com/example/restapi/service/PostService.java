@@ -1,9 +1,12 @@
 package com.example.restapi.service;
 
+import com.example.restapi.dto.exception.PostNotExceptionResponse;
 import com.example.restapi.dto.exception.UserNotExceptionResponse;
 import com.example.restapi.dto.request.post.RequestCreatePostDto;
+import com.example.restapi.dto.request.post.RequestUpdatePostDto;
 import com.example.restapi.dto.response.post.ResponseCreatePostDto;
 import com.example.restapi.dto.response.post.ResponseRetrievePostDto;
+import com.example.restapi.dto.response.post.ResponseUpdatePostDto;
 import com.example.restapi.entity.Post.Post;
 import com.example.restapi.entity.Post.PostRepository;
 import com.example.restapi.entity.User.User;
@@ -32,12 +35,6 @@ public class PostService {
 
     /*
 
-    // 유저의 게시물을 변경하는 메소드
-    @PatchMapping("/users/{id}/posts/{post_id}/title")
-    public String updatePostTitle(@PathVariable int id, @PathVariable int post_id){
-        return "updatePostTitle";
-    }
-
     // 유저의 게시물을 삭제하는 메소드
     @DeleteMapping("/users/{id}/posts/{post_id}")
     public String deletePost(@PathVariable int id, @PathVariable int post_id){
@@ -52,6 +49,20 @@ public class PostService {
                 .stream()
                 .map( post -> new ResponseRetrievePostDto(post.getId(),post.getPno()))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ResponseUpdatePostDto updatePostTitle(RequestUpdatePostDto requestUpdatePostDto, Long id, Long post_id){
+        // User가 있는지 확인
+        User user = verify(id);
+
+        // Post가 있는지 확인
+        Post post = postRepository.findById(post_id).orElseThrow(()->
+            new PostNotExceptionResponse("Not Found Post"));
+
+        post.updateTitle(requestUpdatePostDto.getTitle());
+
+        return new ResponseUpdatePostDto(post.getPno(),user.getId(),post.getTitle());
     }
 
     // user가 존재하는지 확인하는 메소드

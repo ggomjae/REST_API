@@ -24,8 +24,18 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    // User Exception
     @ExceptionHandler(UserNotExceptionResponse.class)
     public final ResponseEntity<Object> handleUserNotException(Exception e, WebRequest webRequest){
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(new Date(), e.getMessage(), webRequest.getDescription(false));
+
+        return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    // Post Exception
+    @ExceptionHandler(PostNotExceptionResponse.class)
+    public final ResponseEntity<Object> handlePostNotException(Exception e, WebRequest webRequest){
         ExceptionResponse exceptionResponse =
                 new ExceptionResponse(new Date(), e.getMessage(), webRequest.getDescription(false));
 
