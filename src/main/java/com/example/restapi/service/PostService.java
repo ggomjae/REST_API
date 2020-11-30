@@ -26,6 +26,11 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
+
+    ////////////////////////////////////////
+    //          UserController            //
+    ////////////////////////////////////////
+
     @Transactional
     public ResponseCreatePostDto savePost(Long id, RequestCreatePostDto requestCreatePostDto){
 
@@ -37,7 +42,7 @@ public class PostService {
     @Transactional
     public List<ResponseRetrievePostDto> retrievePosts(Long id){
         User user = verify(id);
-        return postRepository.findAllDesc(user.getId())
+        return postRepository.findAllConditionDesc(user.getId())
                 .stream()
                 .map( post -> new ResponseRetrievePostDto(post.getId(),post.getPno()))
                 .collect(Collectors.toList());
@@ -71,5 +76,17 @@ public class PostService {
     public User verify(Long id){
         return userRepository.findById(id).orElseThrow(()->
                 new UserNotExceptionResponse("Not Found User"));
+    }
+
+    ////////////////////////////////////////
+    //          PostController            //
+    ////////////////////////////////////////
+
+    @Transactional
+    public List<ResponseRetrievePostDto> retrieveAllPost(){
+        return postRepository.findAllDesc()
+                .stream()
+                .map( post -> new ResponseRetrievePostDto(post.getId(),post.getPno()))
+                .collect(Collectors.toList());
     }
 }
