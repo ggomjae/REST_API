@@ -32,9 +32,9 @@ public class RequestCreateUserDto {
 
     public User toEntiy(){
         return User.builder()
-                .email(email)
-                .password(password)
-                .nickname(nickname)
+                .email(this.email)
+                .password(this.password)
+                .nickname(this.nickname)
                 .build();
     }
 }

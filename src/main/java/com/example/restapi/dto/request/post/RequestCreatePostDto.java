@@ -30,12 +30,13 @@ public class RequestCreatePostDto {
         this.postStatus = postStatus;
     }
 
-    public Post toPost(){
+    public Post toPost(Long id){
         return Post.builder()
-                .title(title)
-                .content(content)
-                .description(description)
-                .postStatus(postStatus)
+                .title(this.title)
+                .id(id)
+                .content(this.content)
+                .description(this.description)
+                .postStatus(this.postStatus)
                 .build();
     }
 }

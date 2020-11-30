@@ -14,6 +14,9 @@ public class Post extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pno;
 
+    @Column(nullable = false)
+    private Long id;
+
     @Column(length = 500, nullable = false)
     private String title;
 
@@ -27,7 +30,8 @@ public class Post extends BaseTimeEntity {
     private boolean postStatus;
 
     @Builder
-    public Post(String title, String content, String description, boolean postStatus){
+    public Post(Long id, String title, String content, String description, boolean postStatus){
+        this.id = id;
         this.title = title;
         this.content = content;
         this.description = description;

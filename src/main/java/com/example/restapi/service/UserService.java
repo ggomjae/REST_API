@@ -24,14 +24,14 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ResponseCreateUserDto save(RequestCreateUserDto requestCreateDto) {
+    public ResponseCreateUserDto saveUser(RequestCreateUserDto requestCreateDto) {
 
         User user = userRepository.save(requestCreateDto.toEntiy());
         return new ResponseCreateUserDto(user.getId(), user.getNickname());
     }
 
     @Transactional
-    public ResponseRetrieveUserDto retrieve(Long id){
+    public ResponseRetrieveUserDto retrieveUser(Long id){
 
         // 만약 존재하지 않으면 Error
         User user = userRepository.findById(id).orElseThrow(()->

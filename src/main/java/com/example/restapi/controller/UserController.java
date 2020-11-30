@@ -1,12 +1,15 @@
 package com.example.restapi.controller;
 
+import com.example.restapi.dto.request.post.RequestCreatePostDto;
 import com.example.restapi.dto.request.user.RequestCreateUserDto;
 import com.example.restapi.dto.request.user.RequestUpdateUserDto;
+import com.example.restapi.dto.response.post.ResponseCreatePostDto;
 import com.example.restapi.dto.response.user.ResponseCreateUserDto;
 import com.example.restapi.dto.response.user.ResponseDeleteUserDto;
 import com.example.restapi.dto.response.user.ResponseRetrieveUserDto;
 
 import com.example.restapi.dto.response.user.ResponseUpdateUserDto;
+import com.example.restapi.service.PostService;
 import com.example.restapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +28,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final PostService postService;
 
     ////////////////////////////////////////
     //               User                 //
@@ -34,7 +38,7 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<ResponseCreateUserDto> createUser(@Valid @RequestBody RequestCreateUserDto requestCreateDto){
 
-        ResponseCreateUserDto responseCreateDto = userService.save(requestCreateDto);
+        ResponseCreateUserDto responseCreateDto = userService.saveUser(requestCreateDto);
         /*
             현재 URI를 얻기 위해 ServletUriComponentsBuilder를 쓴다.
             201 Created 응답일 때 어느 페이지로 이동할지를 알려주는 헤더.
@@ -70,7 +74,7 @@ public class UserController {
     public ResponseRetrieveUserDto retrieveUser(@PathVariable Long id){
 
         // HateOAS
-        ResponseRetrieveUserDto responseRetrieveDto = userService.retrieve(id);
+        ResponseRetrieveUserDto responseRetrieveDto = userService.retrieveUser(id);
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveUser(id));
 
@@ -116,9 +120,16 @@ public class UserController {
 
     // 유저의 게시물을 만드는 메소드
     @PostMapping("/users/{id}/posts")
-    public String createPost(@PathVariable Long id){
+    public ResponseEntity<ResponseCreatePostDto> createPost(@RequestBody RequestCreatePostDto requestCreatePostDto, @PathVariable Long id){
 
-        return "createPost";
+        ResponseCreatePostDto responseCreatePostDto = postService.retrievePost(id,requestCreatePostDto);
+
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}/posts/{post_id}")
+                .buildAndExpand(id,responseCreatePostDto.getPno())
+                .toUri();
+
+        return ResponseEntity.created(location).body(responseCreatePostDto);
     }
 
     // 유저의 모든 게시물을 갖고오는 메소드
