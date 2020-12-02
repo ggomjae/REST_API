@@ -57,6 +57,12 @@ public class UserAPI {
                 .buildAndExpand(responseCreateDto.getId())
                 .toUri();
 
+        /*  Login 구현 후 Login Link 달아주면된다.
+        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder
+                        .methodOn(this.getClass()).retrieveUser(responseCreateDto.getId()));
+        responseCreateDto.add(linkTo.withRel("retrieve-user")); // 각 DTO에 각자의 상세 URL 반환
+        */
         return ResponseEntity.created(location).body(responseCreateDto);
     }
 
@@ -122,7 +128,7 @@ public class UserAPI {
 
         ResponseDeleteUserDto responseDeleteUserDto = userService.deleteUser(user_id);
 
-        // HateOAS
+        // HateOAS : -> 추후에 Login 구현 후 Link 다시 구현
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveAllUsers());
 

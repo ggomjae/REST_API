@@ -42,10 +42,32 @@ public ResponseEntity<ResponseCreateDto> createUser(@Valid @RequestBody RequestC
 RequestDTO, ResponseDTO, ExceptionDTO  
 =========================
 
-
 <div>
     <img align="left" width="100%" src = "https://user-images.githubusercontent.com/43604493/100621363-ec590280-3362-11eb-9c15-0fccc4d63ff0.JPG">
 </div>
+
+<br>
+
+HateOAS _LINK  
+=========================
+
+<div>
+    <img align="left" width="100%" src = "https://user-images.githubusercontent.com/43604493/100857913-a326c100-34d0-11eb-92d4-d76d1f1950da.JPG">
+</div>
+
+<br>
+
+```bash
+// List안에 있는 모든 DTO에 상세 Link 걸어주는 반복문
+for(ResponseRetrieveUserDto responseRetrieveUserDto : users){
+    WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
+        .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveUser(responseRetrieveUserDto.getId()));
+    
+    responseRetrieveUserDto.add(linkTo.withRel("retrieve-user")); // 각 DTO에 각자의 상세 URL 반환
+}
+
+```
+
 
 ERD
 ========================
