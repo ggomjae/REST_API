@@ -36,11 +36,12 @@ public class PostAPI {
 
         List<ResponseRetrievePostDto> posts = postService.retrieveAllPost();
 
+        // 다음 상태는 각 게시물의 해당 상세페이지를 보여야하기 때문에
         for(ResponseRetrievePostDto responseRetrievePostDto : posts){
             WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                     .linkTo(WebMvcLinkBuilder
-                            .methodOn(this.getClass()).retrieveAllPost());
-            responseRetrievePostDto.add(linkTo.withRel("Non-Login-retrieve-all-post"));
+                            .methodOn(this.getClass()).retrievePost(responseRetrievePostDto.getPno()));
+            responseRetrievePostDto.add(linkTo.withRel("retrieve-post"));
         }
 
         return posts;
@@ -52,11 +53,11 @@ public class PostAPI {
 
         ResponseRetrievePostDto responseRetrievePostDto = postService.retrievePost(post_id);
 
-        // HateOAS
+        // HateOAS - 비로그인이기 때문에 그다음에는 Post전체를 보여줘야함
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrievePost(post_id));
+                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveAllPost());
 
-        responseRetrievePostDto.add(linkTo.withRel("retrieve-post"));
+        responseRetrievePostDto.add(linkTo.withRel("retrieve-all-post"));
 
         return responseRetrievePostDto;
     }
@@ -87,11 +88,11 @@ public class PostAPI {
 
         ResponseDeleteReplyDto responseDeleteReplyDto = replyService.deleteReply(post_id,reply_id);
 
-        // HateOAS
+        // HateOAS : 삭제하고 나서 Post를 다시 봐야하기 때문에
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).deleteReply(post_id,reply_id));
+                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrievePost(post_id));
 
-        responseDeleteReplyDto.add(linkTo.withRel("delete-reply"));
+        responseDeleteReplyDto.add(linkTo.withRel("retrieve-post"));
 
         return responseDeleteReplyDto;
     }

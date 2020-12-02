@@ -65,13 +65,13 @@ public class UserAPI {
     public List<ResponseRetrieveUserDto> retrieveAllUsers(){
 
         List<ResponseRetrieveUserDto> users = userService.retrieveAllUser();
-
-        // List안에 있는 모든 DTO에 Link 걸어주는 반복문
+        
+        // List안에 있는 모든 DTO에 상세 Link 걸어주는 반복문
         for(ResponseRetrieveUserDto responseRetrieveUserDto : users){
             WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                     .linkTo(WebMvcLinkBuilder
                             .methodOn(this.getClass()).retrieveUser(responseRetrieveUserDto.getId()));
-            responseRetrieveUserDto.add(linkTo.withRel("retrieve-all-user"));
+            responseRetrieveUserDto.add(linkTo.withRel("retrieve-user")); // 각 DTO에 각자의 상세 URL 반환
         }
 
         return users;
@@ -83,12 +83,20 @@ public class UserAPI {
 
         ResponseRetrieveUserDto responseRetrieveDto = userService.retrieveUser(user_id);
 
-        // HateOAS
-        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveUser(user_id));
+        /*
+            HateOAS : 유저정보를 갖고오는 메소드 -> Link : Update, Delete
+            responseRetrieveDto.add(Link.of(String.valueOf(linkTo))); // #1
+         */
 
-        // responseRetrieveDto.add(Link.of(String.valueOf(linkTo))); // #1
-        responseRetrieveDto.add(linkTo.withRel("retrieve-user")); // #2
+        // Update Link
+        WebMvcLinkBuilder UpdateLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).updateUserNickname(user_id,new RequestUpdateUserDto("title")));
+        responseRetrieveDto.add(UpdateLink.withRel("update-user")); // #2
+
+        // Delete Link
+        WebMvcLinkBuilder DeleteLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).deleteUser(user_id));
+        responseRetrieveDto.add(UpdateLink.withRel("delete-user"));
 
         return responseRetrieveDto;
     }
@@ -99,11 +107,11 @@ public class UserAPI {
 
         ResponseUpdateUserDto responseUpdateUserDto = userService.updateUserNickname(user_id,requestUpdateUserDto);
 
-        // HateOAS
+        // HateOAS : Update 한 후에 사용자 정보 갖고 오는 Link
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).updateUserNickname(user_id,requestUpdateUserDto));
+                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveUser(user_id));
 
-        responseUpdateUserDto.add(linkTo.withRel("update-user-nickname"));
+        responseUpdateUserDto.add(linkTo.withRel("retrieve-user"));
 
         return responseUpdateUserDto;
     }
@@ -116,9 +124,9 @@ public class UserAPI {
 
         // HateOAS
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).deleteUser(user_id));
+                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveAllUsers());
 
-        responseDeleteUserDto.add(linkTo.withRel("delete-user"));
+        responseDeleteUserDto.add(linkTo.withRel("retrieve-all-user"));
 
         return responseDeleteUserDto;
     }
@@ -158,11 +166,12 @@ public class UserAPI {
 
         List<ResponseRetrievePostDto> posts = postService.retrievePosts(user_id);
 
+        // HateOAS : 게시물을 다 갖고온 후 갖고온 게시물의 각 조회하는 Link
         for(ResponseRetrievePostDto responseRetrievePostDto : posts){
             WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                     .linkTo(WebMvcLinkBuilder
-                            .methodOn(this.getClass()).retrievePostsOfUser(responseRetrievePostDto.getUno()));
-            responseRetrievePostDto.add(linkTo.withRel("retrieve-all-post"));
+                            .methodOn(PostAPI.class).retrievePost(responseRetrievePostDto.getPno()));
+            responseRetrievePostDto.add(linkTo.withRel("retrieve-user-post"));
         }
         return posts;
     }
@@ -173,11 +182,11 @@ public class UserAPI {
 
         ResponseUpdatePostDto responseUpdatePostDto = postService.updatePostTitle(requestUpdatePostDto,user_id,post_id);
 
-        //HateOAS
+        // HateOAS : Update 한 후에 게시물 정보 갖고 오는 Link
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrievePostsOfUser(user_id));
+                .linkTo(WebMvcLinkBuilder.methodOn(PostAPI.class).retrievePost(post_id));
 
-        responseUpdatePostDto.add(linkTo.withRel("update-post-title"));
+        responseUpdatePostDto.add(linkTo.withRel("retrieve-post"));
         return responseUpdatePostDto;
     }
 
@@ -189,9 +198,9 @@ public class UserAPI {
 
         // HateOAS
         WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).deletePost(user_id,post_id));
+                .linkTo(WebMvcLinkBuilder.methodOn(PostAPI.class).retrieveAllPost());
 
-        responseDeletePostDto.add(linkTo.withRel("delete-post"));
+        responseDeletePostDto.add(linkTo.withRel("retrieve-all-post"));
 
         return responseDeletePostDto;
     }
@@ -206,11 +215,12 @@ public class UserAPI {
 
         List<ResponseRetrieveReplyDto> replys = replyService.retrieveAll(user_id);
 
+        // 보통 모든 댓글을 다보고 그 다음 상태는 User의 상태니
         for(ResponseRetrieveReplyDto responseRetrieveReplyDto : replys){
             WebMvcLinkBuilder linkTo = WebMvcLinkBuilder
                     .linkTo(WebMvcLinkBuilder
-                            .methodOn(this.getClass()).retrieveReplysOfUser(user_id));
-            responseRetrieveReplyDto.add(linkTo.withRel("retrieve-all-reply"));
+                            .methodOn(this.getClass()).retrieveUser(user_id));
+            responseRetrieveReplyDto.add(linkTo.withRel("retrieve-user"));
         }
 
         return replys;
