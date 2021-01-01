@@ -46,6 +46,13 @@ module.exports = {
     extensions: ['*', '.js', '.vue', '.json']
   },
   devServer: {
+    proxy : {
+      '/v1/api' : {
+        target : 'http://localhost:8082',
+        ws : true,
+        changeOrigin: true
+      },
+    },
     historyApiFallback: true,
     noInfo: true,
     overlay: true
