@@ -1,13 +1,10 @@
 package com.example.restapi;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.*;
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.*;
+
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class AppTest {
-
-    @Test
-    void contextLoads() {
-    }
 
 }
