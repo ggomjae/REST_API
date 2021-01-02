@@ -33,7 +33,6 @@ public class OtherService {
         HttpEntity<MultiValueMap<String, String>> rest_request = new HttpEntity<>(parameters, headers);
 
         URI uri = URI.create("https://accounts.google.com/o/oauth2/token");
-
         ResponseEntity<String> rest_response = restTemplate.postForEntity(uri, rest_request, String.class);
         String bodys = rest_response.getBody();
         System.out.println(bodys);
