@@ -1,4 +1,3 @@
-
 server:
   port: 8082
 
@@ -8,6 +7,9 @@ spring:
       enabled: true
   datasource:
     url: jdbc:h2:mem:testdb
+
+# Spring Security configuration
+
 
 management:
   endpoints:

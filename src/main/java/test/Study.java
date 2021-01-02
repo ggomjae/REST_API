@@ -13,5 +13,9 @@ public class Study {
     public StudyStatus getStatus(){
         return this.status;
     }
+
+    public int getLimit(){
+        return this.limit;
+    }
 }
 
