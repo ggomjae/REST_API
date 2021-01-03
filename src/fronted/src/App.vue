@@ -1,15 +1,21 @@
 <template>
   <div id="app">
+    <TodoHeader></TodoHeader>
     <TodoInput></TodoInput>
+    <TodoFooter></TodoFooter>
   </div>
 </template>
 
 <script>
   import TodoInput from './components/TodoInput.vue'
+  import TodoHeader from "./components/TodoHeader";
+  import TodoFooter from "./components/TodoFooter";
 
   export default {
     components: {
-      TodoInput
+      TodoInput,
+      TodoHeader,
+      TodoFooter
     }
   }
 </script>
