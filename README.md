@@ -41,6 +41,15 @@ Two ) ```Entity```가 아닌 ```requestDTO```에 ```@Valid```로 적용
 ```bash
 public ResponseEntity<ResponseCreateDto> createUser(@Valid @RequestBody RequestCreateDto requestCreateDto)
 ```
+
+OAuth2 ( Code, Access Token ) 
+=========================
+
+<div>
+    <img align="left" width="100%" src = "https://user-images.githubusercontent.com/43604493/103472842-8f26f580-4dd5-11eb-9b94-722ca81722e9.JPG">
+</div>
+
+
 RequestDTO, ResponseDTO, ExceptionDTO  
 =========================
 
