@@ -1,38 +1,31 @@
 <template>
-  <div id="app">
+  <v-app>
+    <TodoMenu></TodoMenu>
+
     <TodoHeader></TodoHeader>
-    <TodoInput></TodoInput>
+
+    <TodoMain></TodoMain>
+
     <TodoFooter></TodoFooter>
-  </div>
+  </v-app>
 </template>
 
 <script>
-  import TodoInput from './components/TodoInput.vue'
+  import TodoMain from "./components/TodoMain";
   import TodoHeader from "./components/TodoHeader";
   import TodoFooter from "./components/TodoFooter";
+  import TodoMenu from "./components/TodoMenu";
 
   export default {
     components: {
-      TodoInput,
+      TodoMain,
       TodoHeader,
-      TodoFooter
+      TodoFooter,
+      TodoMenu
     }
   }
 </script>
 
 <style>
-  body {
-    text-align: center;
-    background-color: #F6F6F8;
-  }
-  input {
-    border-style: groove;
-    width: 200px;
-  }
-  button {
-    border-style: groove;
-  }
-  .shadow {
-    box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03)
-  }
+
 </style>

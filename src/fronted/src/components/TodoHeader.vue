@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar
-      color="deep-purple accent-4"
+      color="primary lighten-2"
       dense
       dark
     >
@@ -46,13 +46,3 @@
     </v-app-bar>
   </div>
 </template>
-
-<script>
-  export default {
-
-  }
-</script>
-
-<style scoped>
-
-</style>
