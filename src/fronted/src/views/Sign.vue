@@ -1,17 +1,16 @@
 <template>
-  <div id = "app">
-    <router-view></router-view>
+  <div>
+    Sign Vue
   </div>
 </template>
 
 <script>
-  export default {
-    components: {
 
-    }
+  export default {
+    name: "Sign"
+
   }
 </script>
 
-<style>
-
+<style scoped>
 </style>

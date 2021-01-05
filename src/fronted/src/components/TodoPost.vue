@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    main
+    post
 
     <v-container fluid>
       container
