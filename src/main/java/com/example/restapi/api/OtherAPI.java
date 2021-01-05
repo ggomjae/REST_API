@@ -19,7 +19,7 @@ public class OtherAPI {
         System.out.println("------------code-------------");
         System.out.println(code);
 
-        otherService.googleSignCallback(code);
+        otherService.takeEmail(code);
 
         return ;
     }
