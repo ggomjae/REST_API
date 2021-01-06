@@ -6,10 +6,14 @@
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar dark color="primary lighten-1">
-                <v-toolbar-title justify-center>Login</v-toolbar-title>
+                <v-toolbar-title justify-center>SignUp</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <v-form>
+                  <v-text-field
+                    label="Username"
+                    prepend-icon="mdi-account-circle"
+                  />
                   <v-text-field
                     label="Email"
                     name="email"
@@ -17,20 +21,30 @@
                     type="text"
                     v-model="email"
                   ></v-text-field>
+
                   <v-text-field
-                    :type="showPassword ? 'text' : 'password'"
+                    id="password"
                     label="Password"
+                    name="password"
                     prepend-icon="mdi-lock"
-                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                    @click:append="showPassword = !showPassword"
-                  />
+                    type="password"
+                    v-model="password"
+                  ></v-text-field>
+
+                  <v-text-field
+                    id="confirm"
+                    label="Confirm Password"
+                    name="confirm"
+                    prepend-icon="mdi-alert-circle-check"
+                    type="password"
+                    v-model="confirm"
+                  ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-divider></v-divider>
               <v-card-actions>
-                <v-btn color="purple darken-1">SIGNUP</v-btn>
-                <v-btn color="purple darken-1">Login</v-btn>
-                <v-btn color="pink">Google</v-btn>
+                <v-btn color="success">SIGNUP</v-btn>
+                <v-btn color="info">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -48,7 +62,7 @@
 <script>
 
   export default {
-    name: "Login"
+    name: "SignUp"
 
   }
 </script>
