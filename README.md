@@ -3,8 +3,8 @@ REST API Server  ( ~ing ) 🐻
 Java 8 to 11 <br>
 Spring Security <br>
 HateOAS, Self-descriptive message<br>
-
-그 다음 해야할 것: DTO -> Inner Class 넣어서 중복된 부분 리팩토링하기 <br> 
+JUnit5 <br>
+Vue 연동 [webpack 연구 및 통신 연구] <br>
 
 -------
 * Author 민경재[ggomjae] <br>
