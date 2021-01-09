@@ -20,6 +20,7 @@ import com.example.restapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,7 +33,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api")
+@RequestMapping("/api")
 public class UserAPI {
 
     private final UserService userService;
@@ -69,6 +70,8 @@ public class UserAPI {
     // 모든 유저 정보를 갖고 오는 메소드
     @GetMapping("/users")
     public List<ResponseRetrieveUserDto> retrieveAllUsers(){
+
+        System.out.println("이게 뜬다고 ?");
 
         List<ResponseRetrieveUserDto> users = userService.retrieveAllUser();
         
@@ -231,4 +234,11 @@ public class UserAPI {
 
         return replys;
     }
+
+    //etc
+    @PostMapping("/test")
+    public String test(String email, String password){
+        return email;
+    }
+
 }

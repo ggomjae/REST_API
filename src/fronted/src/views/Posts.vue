@@ -12,7 +12,6 @@
   import TodoHeader from "../components/common/TodoHeader";
   import TodoFooter from "../components/common/TodoFooter";
   import TodoMenu from "../components/common/TodoMenu";
-
   export default {
     components: {
       TodoPosts,
@@ -24,5 +23,4 @@
 </script>
 
 <style>
-
 </style>

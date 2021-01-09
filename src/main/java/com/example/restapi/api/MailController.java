@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MailController {
 
-    private final MailService mailService;
+    //private final MailService mailService;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @PostMapping("/v1/api/mail")
     public void execMail(@RequestBody MailDto mailDto) {
         logger.info("mail test");
-        mailService.mailSend(mailDto);
+        //mailService.mailSend(mailDto);
     }
 }
