@@ -13,7 +13,7 @@ Vue 연동 [webpack 연구 및 통신 연구] <br>
 * 과거 공부한 java 8 to 10 참고 <https://github.com/ggomjae/java8to11> <br>
 -------
 
-REST API
+REST API [ 1 depth로 리팩토링 예정 ] 
 ============
 
 <div>
