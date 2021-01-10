@@ -30,10 +30,10 @@ public class RequestCreateUserDto {
          this.nickname = nickname;
      }
 
-    public User toEntiy(){
+    public User toEntiy(String encodePassword){
         return User.builder()
                 .email(this.email)
-                .password(this.password)
+                .password(encodePassword)
                 .nickname(this.nickname)
                 .build();
     }

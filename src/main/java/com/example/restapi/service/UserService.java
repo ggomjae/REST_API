@@ -11,6 +11,7 @@ import com.example.restapi.dto.request.user.RequestCreateUserDto;
 import com.example.restapi.dto.response.user.ResponseCreateUserDto;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,10 +24,19 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public ResponseCreateUserDto saveUser(RequestCreateUserDto requestCreateDto) {
 
-        User user = userRepository.save(requestCreateDto.toEntiy());
+        /*
+            암호화 하는 부분
+         */
+        String encodePassword = passwordEncoder.encode(requestCreateDto.getPassword());
+        User user = userRepository.save(requestCreateDto.toEntiy(encodePassword));
+
+        System.out.println(encodePassword);
+
         return new ResponseCreateUserDto(user.getUno(), user.getNickname());
     }
 
@@ -36,6 +46,11 @@ public class UserService {
         // 만약 존재하지 않으면 Error
         User user = userRepository.findById(user_id).orElseThrow(()->
                 new UserNotExceptionResponse("Not Found User"));
+
+        // 임시 암호화 맞는지 확인 : "password" : "password"
+        if(!passwordEncoder.matches("password", user.getPassword())){
+            System.out.println("암호가 맞지 않습니다.");
+        }else System.out.println("암호가 맞습니다.");
 
         return new ResponseRetrieveUserDto(user.getUno(),user.getEmail(), user.getNickname());
     }

@@ -4,7 +4,7 @@ Java 8 to 11 <br>
 Spring Security <br>
 HateOAS, Self-descriptive message<br>
 JUnit5 <br>
-Vue 연동 [webpack 연구 및 통신 연구] <br>
+Vue 연동 [webpack 공부 및 통신 공부] <br>
 
 -------
 * Author 민경재[ggomjae] <br>
