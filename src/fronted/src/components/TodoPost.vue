@@ -1,21 +1,5 @@
 <template>
   <v-main>
-    <v-container fluid>
-      <v-row>
-        <v-col
-          cols="12"
-          md="6"
-        >
-          <v-textarea
-            outlined
-            name="input-7-4"
-            label="Outlined textarea"
-            v-bind:value="email"
-            disabled
-          ></v-textarea>
-        </v-col>
-      </v-row>
-    </v-container>
     <v-card
       :loading="loading"
       class="mx-auto my-12"
@@ -30,11 +14,16 @@
       </template>
 
       <v-img
+        v-if="img !== null"
         height="250"
         :src="img"
       ></v-img>
 
-      <v-card-title>Cafe Badilico</v-card-title>
+      <v-card-title
+        :email="email"
+      >
+        {{email}}
+      </v-card-title>
 
       <v-card-text>
         <v-row
@@ -55,8 +44,8 @@
           </div>
         </v-row>
 
-        <div class="my-4 subtitle-1">
-          $ • Italian, Cafe
+        <div class="my-4 subtitle-1" :email="email">
+          {{email}}
         </div>
 
         <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
@@ -96,11 +85,34 @@
 </template>
 
 <script>
+
+  import axios from 'axios';
+
   export default {
     data () {
       return {
-        img : "https://cdn.vuetifyjs.com/images/cards/cooking.png"
+        selection : "selection!",
+        email : "",
+        reserve : "reserve!!",
+        loading : "loading!!",
+        img : null
       }
     },
+    /*
+      csr 에서는 data created에 접근 가능 단 돔에 접근 x
+      그래서 created 보단 mounted를 썼음.
+     */
+    mounted () {
+
+      axios.defaults.baseURL = 'http://localhost:8082/v1/api';
+      axios.defaults.headers['Content-Type'] ='application/json;charset=utf-8';
+      axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
+
+      axios.get('/posts/1')
+        .then(data =>{
+          this.email = data.data.content;
+          this.img = "https://cdn.vuetifyjs.com/images/cards/cooking.png";
+        }).catch(e => { alert(e)});
+    }
   }
 </script>

@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface ReplyRepository extends JpaRepository<Reply,Long> {
 
-    List<Reply> findAllAsc(Long user_id);
+//    @Query("SELECT r FROM Reply r WHERE r.uno = ?1 ")
+//    List<Reply> findAllAsc(Long user_id);
+
+    List<Reply> findAllByUno(Long uno);
 
     List<Reply> findReplyByPost(Post post);
 }

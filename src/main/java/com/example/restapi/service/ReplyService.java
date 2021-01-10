@@ -30,7 +30,7 @@ public class ReplyService {
     public List<ResponseRetrieveReplyDto> retrieveAll(Long user_id){
 
         // 이부분 리팩토링해야함
-        return replyRepository.findAllAsc(user_id)
+        return replyRepository.findAllByUno(user_id)
                 .stream()
                 .map( reply -> new ResponseRetrieveReplyDto(reply.getPost().getPno(),reply.getUno(),reply.getContent()))
                 .collect(Collectors.toList());

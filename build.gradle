@@ -23,7 +23,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    runtimeOnly 'com.h2database:h2'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     //testImplementation 'org.springframework.security:spring-security-test'
@@ -34,7 +34,7 @@ dependencies {
         'org.springframework.plugin.core.PluginRegistry org.springframework.plugin.core.PluginRegistry.of(java.util.List)
      */
     compile("org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE")
-
+    compile 'mysql:mysql-connector-java'
     // 문서화를 위한 Swagger
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
