@@ -5,6 +5,7 @@ import com.example.restapi.dto.response.post.ResponseRetrievePostDto;
 
 import com.example.restapi.dto.response.reply.ResponseCreateReplyDto;
 import com.example.restapi.dto.response.reply.ResponseDeleteReplyDto;
+import com.example.restapi.entity.Reply.Reply;
 import com.example.restapi.service.PostService;
 import com.example.restapi.service.ReplyService;
 import lombok.RequiredArgsConstructor;
@@ -95,5 +96,11 @@ public class PostAPI {
         responseDeleteReplyDto.add(linkTo.withRel("retrieve-post"));
 
         return responseDeleteReplyDto;
+    }
+
+    // 단방향 댓글 다갖고 오는 댓글
+    @GetMapping("/posts/{post_id}/reply")
+    public List<Reply> retrieveReplys(@PathVariable Long post_id){
+        return replyService.retrieveReplys(post_id);
     }
 }

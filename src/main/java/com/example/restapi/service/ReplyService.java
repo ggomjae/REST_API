@@ -28,18 +28,23 @@ public class ReplyService {
 
     @Transactional
     public List<ResponseRetrieveReplyDto> retrieveAll(Long user_id){
+
+        // 이부분 리팩토링해야함
         return replyRepository.findAllAsc(user_id)
                 .stream()
-                .map( reply -> new ResponseRetrieveReplyDto(reply.getPno(),reply.getUno(),reply.getContent()))
+                .map( reply -> new ResponseRetrieveReplyDto(reply.getPost().getPno(),reply.getUno(),reply.getContent()))
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public ResponseCreateReplyDto saveReply(Long post_id, RequestCreateReplyDto requestCreateReplyDto){
 
-        Post post = verify(post_id);
-        Reply reply = replyRepository.save(requestCreateReplyDto.toReply(post.getUno(),post.getPno()));
-        return new ResponseCreateReplyDto(reply.getRno(),reply.getPno(),reply.getUno());
+        Post post = postRepository.findById(post_id).orElseThrow(()->
+                new PostNotExceptionResponse("Not Found Reply"));
+        Reply reply = requestCreateReplyDto.toReply(1L,post);
+        replyRepository.save(reply);
+
+        return new ResponseCreateReplyDto(reply.getRno(),reply.getPost().getPno(),reply.getUno());
     }
 
     @Transactional
@@ -49,7 +54,7 @@ public class ReplyService {
                 new ReplyNotExceptionResponse("Not Found Reply"));
 
         // 모두 존재하지만 user가 작성한것과 다를때 예외 처리
-        if(reply.getPno() != post.getPno()) throw new NotMatchExceptionResponse("Not Match");
+        if(reply.getPost().getPno() != post.getPno()) throw new NotMatchExceptionResponse("Not Match");
 
         replyRepository.delete(reply);
         return new ResponseDeleteReplyDto(reply.getRno(),true);
@@ -60,5 +65,15 @@ public class ReplyService {
     public Post verify(Long post_id){
         return postRepository.findById(post_id).orElseThrow(()->
                 new PostNotExceptionResponse("Not Found Post"));
+    }
+
+    /////////////////////////////////////////////////////////////////////
+    ///////     임시 단방향 서비스 /////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
+    @Transactional
+    public List<Reply> retrieveReplys(Long post_id){
+        Post post = postRepository.findById(post_id).orElseThrow(()->
+            new PostNotExceptionResponse("Not Found Post"));
+        return replyRepository.findReplyByPost(post);
     }
 }

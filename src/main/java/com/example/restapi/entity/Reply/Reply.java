@@ -1,5 +1,6 @@
 package com.example.restapi.entity.Reply;
 
+import com.example.restapi.entity.Post.Post;
 import com.example.restapi.utils.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,10 +15,12 @@ public class Reply extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reply_id")
     private Long rno;
 
-    @Column(nullable = false)
-    private Long pno;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     @Column(nullable = false)
     private Long uno;
@@ -26,8 +29,8 @@ public class Reply extends BaseTimeEntity {
     private String content;
 
     @Builder
-    private Reply(Long pno, Long uno, String content){
-        this.pno = pno;
+    private Reply(Post post, Long uno, String content){
+        this.post = post;
         this.uno = uno;
         this.content = content;
     }

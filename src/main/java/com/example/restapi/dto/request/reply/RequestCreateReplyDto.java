@@ -22,10 +22,10 @@ public class RequestCreateReplyDto {
         this.content = content;
     }
 
-    public Reply toReply(Long user_id, Long post_id){
+    public Reply toReply(Long user_id, Post post){
         return Reply.builder()
                 .uno(user_id)
-                .pno(post_id)
+                .post(post)
                 .content(this.content)
                 .build();
     }
